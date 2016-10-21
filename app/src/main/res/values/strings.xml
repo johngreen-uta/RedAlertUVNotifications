@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Red Alert UV Notifications</string>
+    <string name="zip_code">zip code</string>
+    <string name="find_uv">Find UV</string>
 </resources>
