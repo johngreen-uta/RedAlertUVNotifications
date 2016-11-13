@@ -1,6 +1,5 @@
 package com.team11.cse4322.redalertuvnotifications;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,19 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AsyncResponse{
 
     //button listener
     Button  uvButton;
@@ -29,7 +18,9 @@ public class MainActivity extends AppCompatActivity {
     EditText uvEdit;
 
     //text view to paste json
-    private TextView uvData;
+    TextView uvData;
+
+    UV_Lookup uvLookup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +43,26 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v)
                     {
-                        new UV_Lookup().execute("https://iaspub.epa.gov/enviro/efservice/getEnvirofactsUVDAILY/ZIP/"+ uvEdit.getText().toString() +"/JSON");
+                        uvLookup = new UV_Lookup();
+                        uvLookup.data = MainActivity.this;
+                        uvLookup.execute("https://iaspub.epa.gov/enviro/efservice/getEnvirofactsUVDAILY/ZIP/"+ uvEdit.getText().toString() +"/JSON");
+
                     }
                 });
     }
 
-    /*
+    @Override
+    public void processFinish(String output) {
+        uvData.setText(output);
+    }
+
+/*
+    */
+/*
         This inner class acts as the background to the application. Using the URL provided, it'll go and grab the JSON and parse
         the JSON and return the uv index and uv alert
-    */
+    *//*
+
     public class UV_Lookup extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -130,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+*/
 
 
 }
