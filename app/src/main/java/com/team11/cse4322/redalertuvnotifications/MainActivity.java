@@ -7,8 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-
-
 public class MainActivity extends AppCompatActivity implements AsyncResponse{
 
     //button listener
@@ -21,6 +19,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
     TextView uvData;
 
     UV_Lookup uvLookup;
+
+    Button showNotificationBut, stopNotificationBut;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,12 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
 
         // text view to paste json
         uvData = (TextView)findViewById(R.id.uvJsonItem);
+
+        showNotificationBut = (Button) findViewById(R.id.showNotificationBut);
+
+        stopNotificationBut = (Button) findViewById(R.id.stopNotificationBut);
+
+        //alertButton = (Button) findViewById(R.id.alertButton);
 
         // on clicking find uv button, app will go to the url provided and grab the json with the help of the UV_Lookup class
         uvButton.setOnClickListener(
@@ -56,84 +63,15 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         uvData.setText(output);
     }
 
-/*
-    */
-/*
-        This inner class acts as the background to the application. Using the URL provided, it'll go and grab the JSON and parse
-        the JSON and return the uv index and uv alert
-    *//*
+    public void showNotification(View view) {
 
-    public class UV_Lookup extends AsyncTask<String, String, String> {
-        @Override
-        protected String doInBackground(String... params) {
-
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-
-            try{
-                // sets up connection
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-
-                InputStream stream = connection.getInputStream();
-
-                reader = new BufferedReader(new InputStreamReader(stream));
-
-                StringBuilder buffer = new StringBuilder();
-
-                // reads the json
-                String line = "";
-                while ((line = reader.readLine()) != null){
-                    buffer.append(line);
-                }
-
-                // json string
-                String finalJson = buffer.toString();
-
-                // first the json array
-                JSONArray parentArray = new JSONArray(finalJson);
-
-                // the jsonobject inside the array
-                JSONObject finalObject = parentArray.getJSONObject(0);
-
-                // the key-value inside the json object
-                int uvIndex = finalObject.getInt("UV_INDEX");
-                int uvAlert = finalObject.getInt("UV_ALERT");
-
-                // return info in order to display
-                return "INDEX:"+ uvIndex + " ALERT:" + uvAlert;
-
-                // exception handling
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally{
-                if(connection != null){
-                    connection.disconnect(); // close connection
-                }
-                try{
-                    if(reader != null){
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-
-        }
-
-        @Override
-        protected void onPostExecute(String result){
-            super.onPostExecute(result);
-            uvData.setText(result); // display result upon finish
-        }
+        AlertReceiver.setupAlarm(getApplicationContext());
 
     }
-*/
 
+    public void stopNotification(View view) {
+            // to do
+        }
 
 }
 
