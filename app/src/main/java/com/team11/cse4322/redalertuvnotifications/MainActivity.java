@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         stopNotificationBut = (Button) findViewById(R.id.stopNotificationBut);
 
         //alertButton = (Button) findViewById(R.id.alertButton);
+        // store it to a file
 
         // on clicking find uv button, app will go to the url provided and grab the json with the help of the UV_Lookup class
         uvButton.setOnClickListener(
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
     public void processFinish(String output) {
         uvData.setText(output);
     }
+
 
     public void showNotification(View view) {
 
